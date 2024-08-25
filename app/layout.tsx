@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Footer } from "@/components/Footer";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,7 +27,9 @@ export default function RootLayout({
         enableSystem
         disableTransitionOnChange
         >
+            <ThemeProvider>
         {children}
+        </ThemeProvider>
         {/* <Footer/> */}
         </ThemeProvider>
         </body>

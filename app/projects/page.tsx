@@ -43,6 +43,7 @@ import Pagination from "@/components/Pagination"
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { IconNotification } from "@tabler/icons-react";
+import { signOut } from "next-auth/react";
 
 export default function ProjectsPage() {
     const [currentPage, setCurrentPage] = useState(1);
@@ -235,7 +236,7 @@ export default function ProjectsPage() {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem ><button onClick={()=>signOut()}>Logout</button></DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
