@@ -25,9 +25,6 @@ const Navbar: React.FC = async() => {
           </Link>
         </div>
         <div className='flex items-center space-x-4'>
-          <Link href="/projects" className={`text-white hover:text-gray-300 transition-colors ${manrope.className}`}>
-            Get Started
-          </Link>
           <Link href="https://github.com/DeepanshuMishraa" target="_blank" rel="noopener noreferrer" className={`text-white hover:text-gray-300 transition-colors ${manrope.className}`}>
             GitHub
           </Link>

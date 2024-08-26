@@ -20,4 +20,15 @@ model User{
     email String @unique
     kindeId String @unique
     image String?
+    projects Projects[]
+}
+
+
+model Projects{
+    id String @id @default(cuid())
+    title String
+    description String
+    image String
+    userId String
+    user User @relation(fields: [userId],references: [kindeId])
 }

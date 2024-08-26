@@ -18,16 +18,7 @@ export const  Hero = ()=> {
         Connect with collaborators, get feedback, and find resources for your development projects globally.
       </p>
       <div className="flex  justify-center mt-8 space-x-4">
-        <Link href='/share' className="z-10">
-        <Button
-          variant="default"
-          size="lg"
-          className="hover:cursor-pointer"
-        >
-          Share Project
-        </Button>
-        </Link>
-        <Link href="/projects" className="z-10">
+        <Link href="/project" className="z-10">
         <Button
           variant="outline"
           size="lg"
