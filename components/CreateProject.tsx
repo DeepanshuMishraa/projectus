@@ -12,14 +12,28 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import axios from "axios";
+import { toast } from "./ui/use-toast"
 
 export function CreateProject() {
   const [title, setTitle] = useState("")
-  const [image, setImage] = useState<File | null>(null)
+  const [image, setImage] = useState("")
   const [repoLink, setRepoLink] = useState("")
   const [tags, setTags] = useState("")
+    const [description, setDescription] = useState("")
 
   const handleSubmit = (e: React.FormEvent) => {
+    axios.post("/api/v1/create",{
+        title,
+        description,
+        image,
+        gh:repoLink,
+        tags
+    })
+    toast({
+        title:"Project Created",
+        description:"Your project has been created successfully",
+       })
     e.preventDefault()
     // Handle project creation logic here
     console.log({ title, image, repoLink, tags: tags.split(',').map(tag => tag.trim()) })
@@ -52,14 +66,24 @@ export function CreateProject() {
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="title" className="text-right">
+                Description
+              </Label>
+              <Textarea
+                id="Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="col-span-3"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="image" className="text-right">
                 Image
               </Label>
               <Input
                 id="image"
-                type="file"
-                accept="image/*"
-                onChange={(e) => setImage(e.target.files?.[0] || null)}
+                type="text"
+                onChange={(e) => setImage(e.target.value || null)}
                 className="col-span-3"
               />
             </div>
@@ -89,7 +113,7 @@ export function CreateProject() {
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit">Create Project</Button>
+            <Button onClick={handleSubmit} type="submit">Create Project</Button>
           </DialogFooter>
         </form>
       </DialogContent>

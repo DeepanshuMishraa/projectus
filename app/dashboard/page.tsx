@@ -19,6 +19,7 @@ import AnimatedGridPattern from "@/components/magicui/animated-grid-pattern";
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import {useKindeBrowserClient} from "@kinde-oss/kinde-auth-nextjs";
 import {
   Card,
   CardContent,
@@ -40,16 +41,13 @@ import ProjectsCard from "@/components/ProjectsCard"
 import WordFadeIn from "@/components/magicui/word-fade-in"
 import { CreateProject } from "@/components/CreateProject"
 import Pagination from "@/components/Pagination"
-import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { IconNotification } from "@tabler/icons-react";
-import { signOut } from "next-auth/react";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 export default function Dashboard() {
     const [currentPage, setCurrentPage] = useState(1);
     const totalPages = 10; // This should be calculated based on your data
-
     const handlePageChange = (page: number) => {
       setCurrentPage(page);
       // Here you would typically fetch data for the new page

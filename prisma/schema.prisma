@@ -27,8 +27,10 @@ model User{
 model Projects{
     id String @id @default(cuid())
     title String
+    github String
     description String
     image String
+    tags String
     userId String
     user User @relation(fields: [userId],references: [kindeId])
 }
