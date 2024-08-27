@@ -12,6 +12,7 @@
         "@auth/prisma-adapter": "^2.4.2",
         "@hookform/resolvers": "^3.9.0",
         "@kinde-oss/kinde-auth-nextjs": "^2.3.6",
+        "@octokit/rest": "^21.0.2",
         "@prisma/client": "^5.18.0",
         "@radix-ui/react-accordion": "^1.2.0",
         "@radix-ui/react-alert-dialog": "^1.1.1",
