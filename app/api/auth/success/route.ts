@@ -24,5 +24,5 @@ export async function GET() {
         });
     }
 
-    return NextResponse.redirect("http://localhost:3000/projects");
+    return NextResponse.redirect("http://localhost:3000/project");
 }

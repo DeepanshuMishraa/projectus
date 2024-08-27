@@ -1,52 +1,63 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { Badge } from "./ui/badge";
+'use client'
+
+import { useEffect, useState } from "react";
+import axios from "axios";
 import Image from "next/image";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "./ui/card";
+import { Badge } from "./ui/badge";
+import { toast } from "./ui/use-toast";
+import { User, Loader2 } from "lucide-react";
+
+interface Project {
+    title: string;
+    description: string;
+    tags: string;
+    image: string;
+    author: string;
+    github: string;
+}
 
 const ProjectsCard = () => {
-    // web3,webdev and devops projects along with tags
+    const [projects, setProjects] = useState<Project[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    const projects = [
-        {
-            title: "Decentralized Social Media App",
-            description: "A decentralized social media app built on the Ethereum blockchain",
-            tags: ["web3", "solidity", "react", "blockchain"],
-            image: "https://images.unsplash.com/photo-1520509414578-d9cbf09933a1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y29tcHV0ZXIlMjBzY2llbmNlfGVufDB8fDB8fHww",
-        },
-        {
-            title: "E-commerce Platform",
-            description: "A full-stack e-commerce platform for selling digital products",
-            tags: ["webdev", "react", "nodejs", "mongodb"],
-            image: "https://images.unsplash.com/photo-1520509414578-d9cbf09933a1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y29tcHV0ZXIlMjBzY2llbmNlfGVufDB8fDB8fHww",
-        },
-        {
-            title: "Decentralized Exchange",
-            description: "A decentralized exchange for trading ERC20 tokens",
-            tags: ["web3", "solidity", "react", "blockchain"],
-            image: "https://images.unsplash.com/photo-1520509414578-d9cbf09933a1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y29tcHV0ZXIlMjBzY2llbmNlfGVufDB8fDB8fHww",
-        },
-        {
-            title: "Decentralized Social Media App",
-            description: "A decentralized social media app built on the Ethereum blockchain",
-            tags: ["web3", "solidity", "react", "blockchain"],
-            image: "https://images.unsplash.com/photo-1520509414578-d9cbf09933a1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y29tcHV0ZXIlMjBzY2llbmNlfGVufDB8fDB8fHww",
-        },
-        {
-            title: "E-commerce Platform",
-            description: "A full-stack e-commerce platform for selling digital products",
-            tags: ["webdev", "react", "nodejs", "mongodb"],
-            image: "https://images.unsplash.com/photo-1520509414578-d9cbf09933a1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y29tcHV0ZXIlMjBzY2llbmNlfGVufDB8fDB8fHww",
-        },
-        {
-            title: "Decentralized Exchange",
-            description: "A decentralized exchange for trading ERC20 tokens",
-            tags: ["web3", "solidity", "react", "blockchain"],
-            image: "https://images.unsplash.com/photo-1520509414578-d9cbf09933a1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y29tcHV0ZXIlMjBzY2llbmNlfGVufDB8fDB8fHww",
-        },
-    ]
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    useEffect(() => {
+        getProjects();
+    }, []);
+
+    const getProjects = async () => {
+        try {
+            setLoading(true);
+            const res = await axios.get("/api/v1/get");
+            setProjects(res.data.AllProjects);
+        } catch (e) {
+            console.error("Error fetching projects:", e);
+            toast({
+                title: "Error",
+                description: "An error occurred while fetching the projects",
+                variant: "destructive"
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const splitTags = (tags: string): string[] => {
+        return tags.split(',').map(tag => tag.trim());
+    };
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-96">
+                <Loader2 className="h-8 w-8 animate-spin text-gray-500" />
+            </div>
+        );
+    }
+
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project, index) => (
-                <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <Card key={index} className="flex flex-col overflow-hidden hover:shadow-lg transition-shadow duration-300">
                     <div className="relative h-48">
                         <Image
                             src={project.image}
@@ -57,23 +68,39 @@ const ProjectsCard = () => {
                     </div>
                     <CardHeader>
                         <CardTitle className="text-xl font-bold">{project.title}</CardTitle>
-                        <CardDescription className="text-sm text-gray-600">
-                            {project.description}
+                        <CardDescription className="text-sm text-gray-100">
+                           <div className="mt-4">
+                           {project.description}
+                           </div>
                         </CardDescription>
                     </CardHeader>
-                    <CardContent>
-                        <div className="flex flex-wrap gap-2">
-                            {project.tags.map((tag, tagIndex) => (
-                                <Badge key={tagIndex} variant="outline" className="text-xs">
+                    <CardContent className="flex-grow">
+                        <div className="flex flex-wrap gap-2 mb-4">
+                            {splitTags(project.tags).map((tag, tagIndex) => (
+                                <Badge key={tagIndex} variant="secondary" className="text-xs">
                                     {tag}
                                 </Badge>
                             ))}
                         </div>
                     </CardContent>
+                    <CardFooter className="flex items-center justify-between bg-black px-6 py-3">
+                        <div className="flex items-center space-x-2">
+                            <User className="h-4 w-4 text-gray-100" />
+                            <span className="text-sm text-gray-100">{project.author}</span>
+                        </div>
+                        <a
+                            href={project.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm text-blue-500 hover:underline"
+                        >
+                            View on GitHub
+                        </a>
+                    </CardFooter>
                 </Card>
             ))}
         </div>
-  )
-}
+    );
+};
 
-export default ProjectsCard
+export default ProjectsCard;

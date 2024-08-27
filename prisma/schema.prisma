@@ -31,6 +31,7 @@ model Projects{
     description String
     image String
     tags String
+    author String @default("Anonymous")
     userId String
     user User @relation(fields: [userId],references: [kindeId])
 }
