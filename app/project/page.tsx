@@ -3,18 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import ProjectsCard from "@/components/ProjectsCard";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
 import Pagination from '@/components/Pagination';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import axios from 'axios';
+import SearchBar from '@/components/Search';
+
 
 export default function () {
-  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
   useEffect(() => {
     // Fetch the total number of projects to calculate total pages
     const fetchProjectsCount = async () => {
@@ -43,23 +39,8 @@ export default function () {
         </h1>
 
         <div className="mb-12 flex justify-center">
-          <div className="relative w-full max-w-xl">
-            <Input
-              type="text"
-              placeholder="Search projects..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 pr-4 py-2 w-full bg-neutral-900 border-neutral-800 text-neutral-200 placeholder:text-neutral-500 focus:ring-2 focus:ring-teal-500 transition-all duration-300 ease-in-out"
-            />
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-500" size={20} />
-          </div>
-          <div className="px-4">
-            <Link href="/dashboard">
-              <Button>
-                Create your own
-              </Button>
-            </Link>
-          </div>
+{/* search goes here */}
+<SearchBar/>
         </div>
 
         <div className="transition-all mb-6 duration-300 ease-in-out">

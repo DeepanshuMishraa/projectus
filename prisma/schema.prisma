@@ -36,17 +36,19 @@ model Projects{
     user User @relation(fields: [userId],references: [kindeId])
 }
 
-
 model Repo {
-  id          Int      @id
-  title       String
-  description String
-  image       String
-  github      String
-  tags        String[]
-  author      String
-  stars       Int
-  lastPushed  DateTime
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           Int      @id
+  title        String
+  description  String
+  image        String
+  github       String
+  tags         String[]
+  author       String
+  stars        Int
+  forks        Int
+  openIssues   Int
+  contributors Int
+  lastPushed   DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }

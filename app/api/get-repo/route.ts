@@ -6,13 +6,13 @@ import { Octokit } from "@octokit/rest";
 const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
 const MIN_STARS = 100;
-const DAYS_SINCE_LAST_PUSH = 30;
+const DAYS_SINCE_LAST_PUSH = 0;
 const MAX_REPOS = 100;
 
 export async function GET() {
   try {
     let allRepos = [];
-    let page = 2;
+    let page = 1;
 
     while (allRepos.length < MAX_REPOS) {
       const query = `stars:>=${MIN_STARS} pushed:>=${getDateNDaysAgo(
@@ -51,16 +51,16 @@ export async function GET() {
               "flask",
               "fastapi",
               "deep-learning",
-                "machine-learning",
-                "data-science",
-                "rust",
-                "golang",
-                "kotlin",
-                "java",
-                "data-structures",
-                "algorithms",
-                "nodejs",
-                "javascript",
+              "machine-learning",
+              "data-science",
+              "rust",
+              "golang",
+              "kotlin",
+              "java",
+              "data-structures",
+              "algorithms",
+              "nodejs",
+              "javascript",
             ].includes(topic)
           ) ??
             false)
@@ -75,6 +75,28 @@ export async function GET() {
     allRepos = allRepos.slice(0, MAX_REPOS);
 
     for (const repo of allRepos) {
+      // Fetch additional data
+      const [contributorsData, { data: repoData }] = await Promise.all([
+        octokit.repos.listContributors({
+          owner: repo.owner.login,
+          repo: repo.name,
+          per_page: 1,
+        }),
+        octokit.repos.get({
+          owner: repo.owner.login,
+          repo: repo.name,
+        }),
+      ]);
+
+      const contributorsCount =
+        contributorsData.data.length === 1
+          ? parseInt(
+              contributorsData.headers["link"]?.match(
+                /page=(\d+)>; rel="last"/
+              )?.[1] || "1"
+            )
+          : contributorsData.data.length;
+
       await prisma.repo.upsert({
         where: { id: repo.id },
         update: {
@@ -85,6 +107,9 @@ export async function GET() {
           tags: repo.topics,
           author: repo.owner.login,
           stars: repo.stargazers_count,
+          forks: repoData.forks_count,
+          openIssues: repoData.open_issues_count,
+          contributors: contributorsCount,
           lastPushed: new Date(repo.pushed_at),
         },
         create: {
@@ -96,6 +121,9 @@ export async function GET() {
           tags: repo.topics,
           author: repo.owner.login,
           stars: repo.stargazers_count,
+          forks: repoData.forks_count,
+          openIssues: repoData.open_issues_count,
+          contributors: contributorsCount,
           lastPushed: new Date(repo.pushed_at),
         },
       });
@@ -110,6 +138,9 @@ export async function GET() {
         author: true,
         description: true,
         stars: true,
+        forks: true,
+        openIssues: true,
+        contributors: true,
         lastPushed: true,
       },
     });
