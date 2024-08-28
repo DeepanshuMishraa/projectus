@@ -15,11 +15,11 @@ import {
   UserIcon,
   Users,
 } from "lucide-react"
-import AnimatedGridPattern from "@/components/magicui/animated-grid-pattern";
+
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {useKindeBrowserClient} from "@kinde-oss/kinde-auth-nextjs";
+
 import {
   Card,
   CardContent,
@@ -37,7 +37,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import ProjectsCard from "@/components/ProjectsCard"
 import WordFadeIn from "@/components/magicui/word-fade-in"
 import { CreateProject } from "@/components/CreateProject"
 import Pagination from "@/components/Pagination"
@@ -246,7 +245,6 @@ export default function Dashboard() {
               <CreateProject/>
             </div>
             <div>
-              <ProjectsCard/>
             </div>
           </main>
           <div className='py-10'>
