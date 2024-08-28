@@ -23,14 +23,12 @@ const Navbar: React.FC = () => {
             ProJectus
           </Link>
         </div>
-        {/* Center: Logo */}
-        <div className='flex justify-center'>
-          <Image src={logo} alt="Logo" width={80} height={80} />
-        </div>
-        {/* Right: GitHub Link */}
         <div className='flex items-center space-x-4'>
           <Link href="https://github.com/DeepanshuMishraa" target="_blank" rel="noopener noreferrer" className={`text-white hover:text-gray-300 transition-colors ${manrope.className}`}>
             GitHub
+          </Link>
+          <Link href="https://forms.gle/iyVFHuY8Zn1k1Qgo7">
+          Report an issue
           </Link>
         </div>
       </nav>
