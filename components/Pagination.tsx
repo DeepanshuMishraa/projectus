@@ -13,7 +13,7 @@ const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   onPageChange,
 }) => {
-  const pageNumbers = [];
+  const pageNumbers:any = [];
   const maxVisiblePages = 5;
 
   for (let i = 1; i <= totalPages; i++) {
@@ -64,7 +64,7 @@ const Pagination: React.FC<PaginationProps> = ({
       >
         <ChevronLeft className="h-4 w-4" />
       </Button>
-      {getVisiblePages().map((pageNumber, index) => (
+      {getVisiblePages().map((pageNumber:any, index:any) => (
         <React.Fragment key={index}>
           {pageNumber === -1 ? (
             <Button variant="ghost" size="icon" disabled>
