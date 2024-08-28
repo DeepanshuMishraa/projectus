@@ -11,7 +11,7 @@ const MAX_REPOS = 100;
 
 export async function GET() {
   try {
-    let allRepos = [];
+    let allRepos:any = [];
     let page = 1;
 
     while (allRepos.length < MAX_REPOS) {
