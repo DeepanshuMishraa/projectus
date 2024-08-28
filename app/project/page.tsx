@@ -8,7 +8,7 @@ import axios from 'axios';
 import SearchBar from '@/components/Search';
 
 
-export default function () {
+export default function page() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   useEffect(() => {

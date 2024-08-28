@@ -69,7 +69,7 @@ export function CreateProject() {
         <DialogHeader>
           <DialogTitle>Create New Project</DialogTitle>
           <DialogDescription>
-            Enter your project details. Click create when you're done.
+            Enter your project details. Click create when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
