@@ -41,6 +41,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: "Project created successfully", data: project }, { status: 201 });
   } catch (e) {
     console.error("Error creating project:", e);
-    return NextResponse.json({ error: e.message || "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
